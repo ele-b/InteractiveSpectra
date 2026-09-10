@@ -305,7 +305,6 @@ with tab_opaque:
             LCH_o = lab_to_lch(Lab_o)
             rgb_o = reflectance_to_rgb(refl_o, wls_o, illuminant)
 
-            st.session_state["opaque_sample"] = sample_o
             st.session_state["opaque_reflectance"] = refl_o
             st.session_state["opaque_Lab"] = Lab_o
             st.session_state["opaque_XYZ"] = XYZ_o
@@ -506,7 +505,7 @@ with tab_transparent:
 
 with tab_export:
 
-    if "opaque_sample" not in st.session_state:
+    if "opaque_rgb" not in st.session_state:
         st.info(
             "Open the **Opaque material** tab and select a sample first."
         )
