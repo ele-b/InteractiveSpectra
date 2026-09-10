@@ -1,5 +1,6 @@
 from io import BytesIO
 
+import numpy as np
 from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 
@@ -40,6 +41,10 @@ def generate_pdf(
     BytesIO
         PDF buffer ready for Streamlit download.
     """
+
+    L, a, b = Lab[0], Lab[1], Lab[2]
+    C = float(np.sqrt(a ** 2 + b ** 2))
+    h = float(np.degrees(np.arctan2(b, a)) % 360)
 
     buffer = BytesIO()
 
@@ -109,6 +114,46 @@ def generate_pdf(
         70,
         y,
         f"b*: {Lab[2]:.2f}"
+    )
+
+    y -= 40
+
+    # --------------------------------------------------
+    # CIELCHab
+    # --------------------------------------------------
+
+    pdf.setFont("Helvetica-Bold", 14)
+
+    pdf.drawString(
+        50,
+        y,
+        "CIELCHab Coordinates"
+    )
+
+    pdf.setFont("Helvetica", 12)
+
+    y -= 25
+
+    pdf.drawString(
+        70,
+        y,
+        f"L*: {L:.2f}"
+    )
+
+    y -= 20
+
+    pdf.drawString(
+        70,
+        y,
+        f"C*: {C:.2f}"
+    )
+
+    y -= 20
+
+    pdf.drawString(
+        70,
+        y,
+        f"h°: {h:.1f}"
     )
 
     y -= 40

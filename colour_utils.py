@@ -98,6 +98,14 @@ def reflectance_to_rgb(
     )
 
 
+def lab_to_lch(Lab):
+    """Convert CIELAB to CIELCHab. Returns [L*, C*, h°]."""
+    L, a, b = Lab[0], Lab[1], Lab[2]
+    C = float(np.sqrt(a ** 2 + b ** 2))
+    h = float(np.degrees(np.arctan2(b, a)) % 360)
+    return np.array([L, C, h])
+
+
 def delta_e2000(
     lab1,
     lab2
