@@ -102,11 +102,17 @@ with tab2:
         sorted(df["Data Name"].unique())
     )
 
-    row = df[
+    sci_rows = df[
         (df["Data Name"] == sample)
         &
         (df["Group Name"] == "SCI")
-    ].iloc[0]
+    ]
+
+    if sci_rows.empty:
+        st.warning(f"No SCI measurement found for '{sample}'.")
+        st.stop()
+
+    row = sci_rows.iloc[0]
 
     reflectance = [
         row[c]
@@ -185,19 +191,19 @@ with tab2:
 
 with tab3:
 
-    sample = st.selectbox(
+    comparison_sample = st.selectbox(
         "SCI/SCE comparison sample",
         sorted(df["Data Name"].unique())
     )
 
     sci = df[
-        (df["Data Name"] == sample)
+        (df["Data Name"] == comparison_sample)
         &
         (df["Group Name"] == "SCI")
     ]
 
     sce = df[
-        (df["Data Name"] == sample)
+        (df["Data Name"] == comparison_sample)
         &
         (df["Group Name"] == "SCE")
     ]
@@ -242,17 +248,26 @@ with tab4:
         step=0.01
     )
 
-    reference_row = df[
+    ref_rows = df[
         (df["Data Name"] == reference_sample)
         &
         (df["Group Name"] == "SCI")
-    ].iloc[0]
-
-    glass_row = df[
+    ]
+    glass_rows = df[
         (df["Data Name"] == glass_sample)
         &
         (df["Group Name"] == "SCI")
-    ].iloc[0]
+    ]
+
+    if ref_rows.empty:
+        st.warning(f"No SCI measurement found for reference '{reference_sample}'.")
+        st.stop()
+    if glass_rows.empty:
+        st.warning(f"No SCI measurement found for glass '{glass_sample}'.")
+        st.stop()
+
+    reference_row = ref_rows.iloc[0]
+    glass_row = glass_rows.iloc[0]
 
     reference_spectrum = extract_spectrum(
         reference_row,

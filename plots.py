@@ -92,11 +92,6 @@ def chromaticity_plot(xy_df):
         title="CIE xy Chromaticity"
     )
 
-import colour
-import numpy as np
-import plotly.graph_objects as go
-
-
 def wavelength_to_rgb(wavelength):
     """
     Approximate visible wavelength to RGB.

@@ -42,5 +42,5 @@ RGB:
 {rgb[0]}, {rgb[1]}, {rgb[2]}
 
 Gloss:
-{gloss:.1f}
+{float(gloss):.1f}
 """
